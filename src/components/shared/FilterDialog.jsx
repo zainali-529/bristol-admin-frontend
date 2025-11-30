@@ -12,7 +12,28 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
-function FilterSheet({ open, onOpenChange, filters, onFilterChange, onReset, onApply }) {
+function FilterSheet({ 
+  open, 
+  onOpenChange, 
+  filters, 
+  onFilterChange, 
+  onReset, 
+  onApply,
+  title = 'Filter',
+  description = 'Filter by status, date range, and sort options',
+  statusOptions = [
+    { value: 'all', label: 'All Status' },
+    { value: 'new', label: 'New' },
+    { value: 'read', label: 'Read' },
+    { value: 'resolved', label: 'Resolved' },
+  ],
+  sortOptions = [
+    { value: 'createdAt', label: 'Date' },
+    { value: 'name', label: 'Name' },
+    { value: 'email', label: 'Email' },
+    { value: 'status', label: 'Status' },
+  ]
+}) {
   const [localFilters, setLocalFilters] = useState(filters)
 
   // Update local filters when dialog opens or filters prop changes
@@ -48,9 +69,9 @@ function FilterSheet({ open, onOpenChange, filters, onFilterChange, onReset, onA
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-md">
         <SheetHeader>
-          <SheetTitle>Filter Contacts</SheetTitle>
+          <SheetTitle>{title}</SheetTitle>
           <SheetDescription>
-            Filter contacts by status, date range, and sort options
+            {description}
           </SheetDescription>
         </SheetHeader>
         
@@ -67,10 +88,11 @@ function FilterSheet({ open, onOpenChange, filters, onFilterChange, onReset, onA
                 <SelectValue placeholder="All Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="new">New</SelectItem>
-                <SelectItem value="read">Read</SelectItem>
-                <SelectItem value="resolved">Resolved</SelectItem>
+                {statusOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -111,10 +133,11 @@ function FilterSheet({ open, onOpenChange, filters, onFilterChange, onReset, onA
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="createdAt">Date</SelectItem>
-                <SelectItem value="name">Name</SelectItem>
-                <SelectItem value="email">Email</SelectItem>
-                <SelectItem value="status">Status</SelectItem>
+                {sortOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

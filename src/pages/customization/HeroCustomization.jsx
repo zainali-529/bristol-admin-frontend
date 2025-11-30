@@ -445,8 +445,8 @@ function HeroCustomization() {
               <Plus className="h-4 w-4 mr-2" />
               Create New Template
             </Button>
-          </CardContent>
-        </Card>
+        </CardContent>
+      </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {heros.map((hero) => (

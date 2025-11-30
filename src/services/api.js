@@ -17,6 +17,14 @@ export const apiService = {
   deleteContact: (id) => axiosInstance.delete(`/contacts/admin/${id}`),
   getContactStats: () => axiosInstance.get('/contacts/admin/stats'),
   
+  // Quote Routes - Admin
+  getQuotes: (params) => axiosInstance.get('/quotes/admin', { params }),
+  getQuoteById: (id) => axiosInstance.get(`/quotes/admin/${id}`),
+  updateQuote: (id, data) => axiosInstance.put(`/quotes/admin/${id}`, data),
+  updateQuoteStatus: (id, status) => axiosInstance.put(`/quotes/admin/${id}/status`, { status }),
+  deleteQuote: (id) => axiosInstance.delete(`/quotes/admin/${id}`),
+  getQuoteStats: () => axiosInstance.get('/quotes/admin/stats'),
+  
   // Supplier Routes - Admin
   getSuppliers: (params) => axiosInstance.get('/suppliers/admin', { params }),
   getSupplierById: (id) => axiosInstance.get(`/suppliers/admin/${id}`),
@@ -50,6 +58,29 @@ export const apiService = {
   updateServiceStatus: (id, isActive) => axiosInstance.patch(`/services/admin/${id}/status`, { isActive }),
   updateServiceOrder: (id, displayOrder) => axiosInstance.patch(`/services/admin/${id}/order`, { displayOrder }),
   getServiceStats: () => axiosInstance.get('/services/admin/stats'),
+
+  // Industries - Admin Routes
+  getIndustries: (params) => axiosInstance.get('/industries/admin', { params }),
+  getIndustryById: (id) => axiosInstance.get(`/industries/admin/${id}`),
+  createIndustry: (formData) => axiosInstance.post('/industries/admin', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  updateIndustry: (id, formData) => axiosInstance.put(`/industries/admin/${id}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  deleteIndustry: (id) => axiosInstance.delete(`/industries/admin/${id}`),
+  updateIndustryStatus: (id, isActive) => axiosInstance.patch(`/industries/admin/${id}/status`, { isActive }),
+  updateIndustryOrder: (id, displayOrder) => axiosInstance.patch(`/industries/admin/${id}/order`, { displayOrder }),
+
+  // Testimonials - Admin Routes
+  getAdminTestimonials: (params) => axiosInstance.get('/testimonials/admin', { params }),
+  getAdminTestimonialById: (id) => axiosInstance.get(`/testimonials/admin/${id}`),
+  createTestimonial: (data) => axiosInstance.post('/testimonials/admin', data),
+  updateTestimonial: (id, data) => axiosInstance.put(`/testimonials/admin/${id}`, data),
+  deleteTestimonial: (id) => axiosInstance.delete(`/testimonials/admin/${id}`),
+  updateTestimonialStatus: (id, isActive) => axiosInstance.patch(`/testimonials/admin/${id}/status`, { isActive }),
+  updateTestimonialOrder: (id, displayOrder) => axiosInstance.patch(`/testimonials/admin/${id}/order`, { displayOrder }),
+  getTestimonialStats: () => axiosInstance.get('/testimonials/admin/stats'),
 
   // Energy Prices - Admin Routes
   getEnergyPrices: (params) => axiosInstance.get('/energy-prices/admin/all', { params }),

@@ -19,6 +19,9 @@ import HeroCustomizationPage from '@/pages/customization/HeroCustomization'
 import SettingsPage from '@/pages/settings/Settings'
 import LoginPage from '@/pages/auth/Login'
 import ContactsPage from '@/pages/contacts/Contacts'
+import QuotesPage from '@/pages/quotes/Quotes'
+import IndustriesPage from '@/pages/industries/Industries'
+import TestimonialsPage from '@/pages/testimonials/Testimonials'
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +53,14 @@ export const router = createBrowserRouter([
           element: <ServicesPage />,
         },
         {
+          path: 'industries',
+          element: <IndustriesPage />,
+        },
+        {
+          path: 'testimonials',
+          element: <TestimonialsPage />,
+        },
+        {
           path: 'faqs',
           element: <FAQsPage />,
         },
@@ -76,6 +87,10 @@ export const router = createBrowserRouter([
       {
         path: 'contacts',
         element: <ContactsPage />,
+      },
+      {
+        path: 'quotes',
+        element: <QuotesPage />,
       },
       {
         path: 'customization/theme',

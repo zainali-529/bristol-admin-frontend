@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './authSlice'
 import contactsReducer from './contactsSlice'
+import quotesReducer from './quotesSlice'
 import suppliersReducer from './suppliersSlice'
 import servicesReducer from './servicesSlice'
 import whyTrustUsReducer from './whyTrustUsSlice'
@@ -12,11 +13,14 @@ import newsReducer from './newsSlice'
 import teamMembersReducer from './teamMembersSlice'
 import documentsReducer from './documentsSlice'
 import heroReducer from './heroSlice'
+import industriesReducer from './industriesSlice'
+import testimonialsReducer from './testimonialsSlice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     contacts: contactsReducer,
+    quotes: quotesReducer,
     suppliers: suppliersReducer,
     services: servicesReducer,
     whyTrustUs: whyTrustUsReducer,
@@ -28,6 +32,8 @@ export const store = configureStore({
     teamMembers: teamMembersReducer,
     documents: documentsReducer,
     hero: heroReducer,
+    industries: industriesReducer,
+    testimonials: testimonialsReducer,
   },
 })
 

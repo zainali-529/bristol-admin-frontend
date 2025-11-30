@@ -125,7 +125,7 @@ function HowWeWorkPage() {
             How We Work
           </h1>
           <p style={{ color: 'var(--text-secondary)' }}>
-            Manage the three-step process displayed on your homepage
+            Manage the four-step process displayed on your homepage
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -213,7 +213,7 @@ function HowWeWorkPage() {
               <p style={{ color: 'var(--text-secondary)' }}>No steps found. Please refresh the page.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[...steps]
                 .sort((a, b) => (a.order || 0) - (b.order || 0))
                 .map((step, index) => renderStepCard(step, index))}

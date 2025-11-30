@@ -55,6 +55,9 @@ import {
   Newspaper,
   UserCircle,
   FileText,
+  Receipt,
+  Building2,
+  MessageSquare,
 } from 'lucide-react'
 import { useDarkMode } from '@/hooks/useDarkMode'
 import apiService from '@/services/api'
@@ -64,12 +67,15 @@ const mainNavigation = [
   { title: 'Energy Pricing', icon: LineChart, href: '/pricing' },
   { title: 'Suppliers', icon: Users, href: '/suppliers' },
   { title: 'Services', icon: Briefcase, href: '/services' },
+  { title: 'Industries', icon: Building2, href: '/industries' },
+  { title: 'Testimonials', icon: MessageSquare, href: '/testimonials' },
   { title: 'FAQs', icon: HelpCircle, href: '/faqs' },
   { title: 'News', icon: Newspaper, href: '/news' },
   { title: 'Team Members', icon: UserCircle, href: '/team-members' },
   { title: 'Documents', icon: FileText, href: '/documents' },
   { title: 'Insights & Reports', icon: BarChart3, href: '/insights' },
   { title: 'Contacts', icon: Mail, href: '/contacts' },
+  { title: 'Quote Requests', icon: Receipt, href: '/quotes' },
 ]
 
 const customizationNavigation = [
