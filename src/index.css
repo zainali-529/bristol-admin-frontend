@@ -63,6 +63,16 @@
   /* Popover */
   --popover: #ffffff;
   --popover-foreground: #333333;
+  
+  /* Sidebar - Light Mode */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #333333;
+  --sidebar-primary: #AE613A;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgba(174, 97, 58, 0.1);
+  --sidebar-accent-foreground: #333333;
+  --sidebar-border: rgba(174, 97, 58, 0.2);
+  --sidebar-ring: #AE613A;
 }
 
 body {
