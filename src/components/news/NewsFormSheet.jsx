@@ -711,7 +711,7 @@ function NewsFormSheet({ open, onOpenChange, newsId, onSaveSuccess }) {
             <SheetFooter className="flex-col gap-2 p-4 border-t mt-auto">
               <Button
                 type="submit"
-                disabled={isSubmitting || loading}
+                disabled={isSubmitting}
                 style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
               >
                 {isSubmitting || loading ? (
@@ -727,7 +727,7 @@ function NewsFormSheet({ open, onOpenChange, newsId, onSaveSuccess }) {
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
-                disabled={isSubmitting || loading}
+                disabled={isSubmitting}
                 style={{ borderColor: 'var(--border)', color: 'var(--text-primary)', backgroundColor: 'transparent' }}
               >
                 Cancel

@@ -240,27 +240,18 @@ function Industries() {
         </Button>
       </div>
 
-      {/* Search and Filters */}
-      <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-        <CardContent className="pt-6">
-          <div className="flex items-center gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 size-4" style={{ color: 'var(--text-secondary)' }} />
-              <Input
-                placeholder="Search industries..."
-                value={searchValue}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="pl-10"
-                style={{
-                  backgroundColor: 'var(--background)',
-                  borderColor: 'var(--border)',
-                  color: 'var(--text-primary)',
-                }}
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Search and Filters - Simple */}
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Input
+            placeholder="Search industries..."
+            value={searchValue}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+      </div>
 
       {/* Error Display */}
       {error && (
@@ -289,16 +280,14 @@ function Industries() {
       </Card>
 
       {/* Pagination */}
-      {pagination.totalPages > 1 && (
-        <Pagination
-          currentPage={pagination.currentPage}
-          totalPages={pagination.totalPages}
-          totalItems={pagination.totalIndustries}
-          limit={pagination.limit}
-          onPageChange={handlePageChange}
-          onLimitChange={handleLimitChange}
-        />
-      )}
+      <Pagination
+        currentPage={pagination.currentPage}
+        totalPages={pagination.totalPages}
+        totalItems={pagination.totalIndustries}
+        limit={pagination.limit}
+        onPageChange={handlePageChange}
+        onLimitChange={handleLimitChange}
+      />
 
       {/* Form Sheet */}
       <IndustryFormSheet
@@ -333,4 +322,3 @@ function Industries() {
 }
 
 export default Industries
-

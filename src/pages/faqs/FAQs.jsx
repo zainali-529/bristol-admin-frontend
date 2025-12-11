@@ -34,7 +34,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Search, Filter, Plus, MoreHorizontal, Edit, Trash2, Eye, EyeOff, HelpCircle, X } from 'lucide-react'
+import { Search, Filter, Plus, MoreHorizontal, Edit, Trash2, Eye, EyeOff, X } from 'lucide-react'
 import { format } from 'date-fns'
 import { toast } from 'sonner'
 
@@ -265,100 +265,82 @@ function FAQs() {
       {/* Stats Cards */}
       {stats && (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Total FAQs
-              </CardTitle>
-              <HelpCircle className="h-4 w-4" style={{ color: 'var(--text-secondary)' }} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+          <div 
+            className="flex items-center justify-between rounded-lg border p-4"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+          >
+            <div>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Total FAQs</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 {stats.total}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Active FAQs
-              </CardTitle>
-              <Eye className="h-4 w-4" style={{ color: '#10b981' }} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              </p>
+            </div>
+          </div>
+          <div 
+            className="flex items-center justify-between rounded-lg border p-4"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+          >
+            <div>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Active FAQs</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 {stats.active}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Inactive FAQs
-              </CardTitle>
-              <EyeOff className="h-4 w-4" style={{ color: '#ef4444' }} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              </p>
+            </div>
+          </div>
+          <div 
+            className="flex items-center justify-between rounded-lg border p-4"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+          >
+            <div>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Inactive FAQs</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 {stats.inactive}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Categories
-              </CardTitle>
-              <Filter className="h-4 w-4" style={{ color: 'var(--text-secondary)' }} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              </p>
+            </div>
+          </div>
+          <div 
+            className="flex items-center justify-between rounded-lg border p-4"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+          >
+            <div>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Categories</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 {stats.categories}
-              </div>
-            </CardContent>
-          </Card>
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Search and Filter Bar */}
-      <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-        <CardContent className="pt-6">
-          <div className="flex items-center gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" style={{ color: 'var(--text-secondary)' }} />
-              <Input
-                placeholder="Search questions, answers, or categories..."
-                value={searchValue}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="pl-9 pr-9"
-                style={{
-                  backgroundColor: 'var(--background)',
-                  borderColor: 'var(--border)',
-                  color: 'var(--text-primary)',
-                }}
-              />
-              {searchValue && (
-                <button
-                  onClick={() => handleSearch('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                >
-                  <X className="h-4 w-4" style={{ color: 'var(--text-secondary)' }} />
-                </button>
-              )}
-            </div>
+      {/* Search and Filter Bar - Simple */}
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Input
+            placeholder="Search questions, answers, or categories..."
+            value={searchValue}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="pl-9"
+          />
+          {searchValue && (
             <Button
-              variant="outline"
-              onClick={() => setFilterSheetOpen(true)}
-              style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+              variant="ghost"
+              size="icon"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+              onClick={() => handleSearch('')}
             >
-              <Filter className="mr-2 size-4" /> Filters
+              <X className="size-4" />
             </Button>
-          </div>
-        </CardContent>
-      </Card>
+          )}
+        </div>
+        <Button
+          variant="outline"
+          onClick={() => setFilterSheetOpen(true)}
+          className="shrink-0"
+        >
+          <Filter className="mr-2 size-4" /> Filter
+        </Button>
+      </div>
 
       {/* FAQs Table */}
       <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
@@ -437,4 +419,3 @@ function FAQs() {
 }
 
 export default FAQs
-

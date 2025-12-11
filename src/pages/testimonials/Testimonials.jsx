@@ -261,12 +261,9 @@ function Testimonials() {
       {/* Stats Cards */}
       {stats && (
         <div className="grid gap-4 md:grid-cols-3">
-          <Card
+          <div 
             className="flex items-center justify-between rounded-lg border p-4"
-            style={{
-              backgroundColor: 'var(--card)',
-              borderColor: 'var(--border)'
-            }}
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
           >
             <div>
               <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Total Testimonials</p>
@@ -274,13 +271,10 @@ function Testimonials() {
                 {stats.total}
               </p>
             </div>
-          </Card>
-          <Card
+          </div>
+          <div 
             className="flex items-center justify-between rounded-lg border p-4"
-            style={{
-              backgroundColor: 'var(--card)',
-              borderColor: 'var(--border)'
-            }}
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
           >
             <div>
               <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Active Testimonials</p>
@@ -288,13 +282,10 @@ function Testimonials() {
                 {stats.active}
               </p>
             </div>
-          </Card>
-          <Card
+          </div>
+          <div 
             className="flex items-center justify-between rounded-lg border p-4"
-            style={{
-              backgroundColor: 'var(--card)',
-              borderColor: 'var(--border)'
-            }}
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
           >
             <div>
               <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Inactive Testimonials</p>
@@ -302,31 +293,22 @@ function Testimonials() {
                 {stats.inactive}
               </p>
             </div>
-          </Card>
+          </div>
         </div>
       )}
 
-      {/* Search and Filters */}
-      <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-        <CardContent className="pt-6">
-          <div className="flex items-center gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 size-4" style={{ color: 'var(--text-secondary)' }} />
-              <Input
-                placeholder="Search testimonials..."
-                value={searchValue}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="pl-10"
-                style={{
-                  backgroundColor: 'var(--background)',
-                  borderColor: 'var(--border)',
-                  color: 'var(--text-primary)',
-                }}
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Search and Filters - Simple */}
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Input
+            placeholder="Search testimonials..."
+            value={searchValue}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+      </div>
 
       {/* Error Display */}
       {error && (
@@ -355,16 +337,14 @@ function Testimonials() {
       </Card>
 
       {/* Pagination */}
-      {pagination.totalPages > 1 && (
-        <Pagination
-          currentPage={pagination.currentPage}
-          totalPages={pagination.totalPages}
-          totalItems={pagination.totalTestimonials}
-          limit={pagination.limit}
-          onPageChange={handlePageChange}
-          onLimitChange={handleLimitChange}
-        />
-      )}
+      <Pagination
+        currentPage={pagination.currentPage}
+        totalPages={pagination.totalPages}
+        totalItems={pagination.totalTestimonials}
+        limit={pagination.limit}
+        onPageChange={handlePageChange}
+        onLimitChange={handleLimitChange}
+      />
 
       {/* Form Sheet */}
       <TestimonialFormSheet

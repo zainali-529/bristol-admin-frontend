@@ -94,7 +94,7 @@ const initialState = {
     currentPage: 1,
     totalPages: 1,
     totalSuppliers: 0,
-    limit: 10,
+    limit: 5,
   },
   filters: {
     status: '',

@@ -38,6 +38,12 @@ import {
 import { Search, Filter, Plus, MoreVertical, Edit, Trash2, Check, Sparkles, Video, Image as ImageIcon, X, Play, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
+import HeroAccessModal from '@/components/customization/HeroAccessModal'
+import HeroAccessSheet from '@/components/customization/HeroAccessSheet'
+import apiService from '@/services/api'
+
+const heroProDefault = false;
+const DEMO_FEATURE_KEY = 'hero'
 
 function HeroCustomization() {
   const dispatch = useAppDispatch();
@@ -53,6 +59,60 @@ function HeroCustomization() {
   useEffect(() => {
     dispatch(fetchHeroStats());
   }, [dispatch]);
+
+  useEffect(() => {
+    let mounted = true
+    Promise.all([
+      apiService.getFeatureAccessStatus('hero'),
+      apiService.getAdminPaymentStatus('hero'),
+    ])
+      .then(([accessRes, statusRes]) => {
+        if (!mounted) return
+        setIsUnlocked(!!accessRes.data?.data?.isUnlocked)
+        setPaymentStatus(statusRes.data?.data?.status || '')
+      })
+      .catch(() => {
+        if (!mounted) return
+        setIsUnlocked(false)
+        setPaymentStatus('')
+      })
+      .finally(() => {
+        if (!mounted) return
+        setAccessLoading(false)
+      })
+    return () => { mounted = false }
+  }, [])
+
+  const [canDemo, setCanDemo] = useState(true)
+  useEffect(() => {
+    let mounted = true
+    apiService.getFeatureDemoStatus(DEMO_FEATURE_KEY)
+      .then((res) => {
+        if (!mounted) return
+        setCanDemo(!!res.data?.data?.canDemo)
+      })
+      .catch(() => {
+        if (!mounted) return
+        setCanDemo(true)
+      })
+    return () => { mounted = false }
+  }, [])
+
+  useEffect(() => {
+    const tick = () => {
+      const endRaw = localStorage.getItem(`demo:${DEMO_FEATURE_KEY}:endAt`)
+      const endAt = endRaw ? Number(endRaw) : 0
+      setDemoEndAt(endAt)
+      setDemoActive(!!(endAt && Date.now() < endAt))
+      setNowTs(Date.now())
+      if (endAt && Date.now() >= endAt) {
+        localStorage.removeItem(`demo:${DEMO_FEATURE_KEY}:endAt`)
+      }
+    }
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [])
 
   useEffect(() => {
     const params = {
@@ -333,8 +393,34 @@ function HeroCustomization() {
     );
   };
 
+  const [isUnlocked, setIsUnlocked] = useState(heroProDefault);
+  const [demoEndAt, setDemoEndAt] = useState(Number(localStorage.getItem(`demo:${DEMO_FEATURE_KEY}:endAt`)) || 0)
+  const [demoActive, setDemoActive] = useState(!!(demoEndAt && Date.now() < demoEndAt))
+  const [nowTs, setNowTs] = useState(Date.now())
+  const isGateOpen = !(isUnlocked || demoActive);
+  const [accessOpen, setAccessOpen] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState('');
+  const [accessLoading, setAccessLoading] = useState(true);
+  if (accessLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    )
+  }
   return (
     <div className="space-y-6">
+      {demoActive && (
+        <div className="rounded-lg border p-3 flex items-center justify-between" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary">Demo Active</Badge>
+            <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              Ends in {Math.max(0, Math.floor((demoEndAt - nowTs) / 60000))}m {Math.max(0, Math.floor(((demoEndAt - nowTs) % 60000) / 1000))}s
+            </span>
+          </div>
+          <Button onClick={() => setAccessOpen(true)} style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>Get access</Button>
+        </div>
+      )}
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Hero Section Templates</h1>
@@ -493,6 +579,25 @@ function HeroCustomization() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      {isGateOpen && (
+        <HeroAccessModal
+          open={isGateOpen}
+          status={paymentStatus}
+          canDemo={canDemo}
+          onRequestDemo={async () => {
+            try { await apiService.startFeatureDemo(DEMO_FEATURE_KEY, 5); setCanDemo(false) } catch {}
+            const endAt = Date.now() + 5 * 60 * 1000
+            localStorage.setItem(`demo:${DEMO_FEATURE_KEY}:endAt`, String(endAt))
+            setDemoEndAt(endAt)
+            setDemoActive(true)
+          }}
+          onGetAccess={() => { if (!paymentStatus) setAccessOpen(true) }}
+        />
+      )}
+      <HeroAccessSheet
+        open={accessOpen}
+        onOpenChange={setAccessOpen}
+      />
     </div>
   );
 }

@@ -35,7 +35,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Search, Filter, Plus, MoreHorizontal, Edit, Trash2, Eye, EyeOff, Newspaper, X, Star, Zap } from 'lucide-react'
+import { Search, Filter, Plus, MoreHorizontal, Edit, Trash2, Eye, EyeOff, X, Star, Zap } from 'lucide-react'
 import { format } from 'date-fns'
 import { toast } from 'sonner'
 
@@ -346,103 +346,83 @@ function News() {
       {/* Stats Cards */}
       {stats && (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Total News
-              </CardTitle>
-              <Newspaper className="h-4 w-4" style={{ color: 'var(--text-secondary)' }} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+          <div 
+            className="flex items-center justify-between rounded-lg border p-4"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+          >
+            <div>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Total News</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 {stats.total || 0}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Published
-              </CardTitle>
-              <Eye className="h-4 w-4" style={{ color: 'var(--text-secondary)' }} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              </p>
+            </div>
+          </div>
+          <div 
+            className="flex items-center justify-between rounded-lg border p-4"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+          >
+            <div>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Published</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 {stats.published || 0}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Draft
-              </CardTitle>
-              <Edit className="h-4 w-4" style={{ color: 'var(--text-secondary)' }} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              </p>
+            </div>
+          </div>
+          <div 
+            className="flex items-center justify-between rounded-lg border p-4"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+          >
+            <div>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Draft</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 {stats.draft || 0}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Total Views
-              </CardTitle>
-              <Eye className="h-4 w-4" style={{ color: 'var(--text-secondary)' }} />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              </p>
+            </div>
+          </div>
+          <div 
+            className="flex items-center justify-between rounded-lg border p-4"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}
+          >
+            <div>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Total Views</p>
+              <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 {stats.totalViews || 0}
-              </div>
-            </CardContent>
-          </Card>
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Search and Filter Bar */}
-      <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
-        <CardContent className="pt-6">
-          <div className="flex gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" style={{ color: 'var(--text-secondary)' }} />
-              <Input
-                placeholder="Search news by title, description, content, category, or tags..."
-                value={searchValue}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="pl-10"
-                style={{
-                  backgroundColor: 'var(--background)',
-                  borderColor: 'var(--border)',
-                  color: 'var(--text-primary)'
-                }}
-              />
-              {searchValue && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
-                  onClick={() => handleSearch('')}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
+      {/* Search and Filter Bar - Simple */}
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <Input
+            placeholder="Search news by title, description, content, category, or tags..."
+            value={searchValue}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="pl-9"
+          />
+          {searchValue && (
             <Button
-              variant="outline"
-              onClick={() => setFilterSheetOpen(true)}
-              style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+              variant="ghost"
+              size="icon"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+              onClick={() => handleSearch('')}
             >
-              <Filter className="mr-2 h-4 w-4" />
-              Filter
+              <X className="size-4" />
             </Button>
-          </div>
-        </CardContent>
-      </Card>
+          )}
+        </div>
+        <Button
+          variant="outline"
+          onClick={() => setFilterSheetOpen(true)}
+          className="shrink-0"
+        >
+          <Filter className="mr-2 size-4" />
+          Filter
+        </Button>
+      </div>
 
       {/* Data Table */}
       <Card style={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)' }}>
@@ -463,18 +443,16 @@ function News() {
       </Card>
 
       {/* Pagination */}
-      {pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between">
-          <Pagination
-            currentPage={pagination.currentPage}
-            totalPages={pagination.totalPages}
-            onPageChange={handlePageChange}
-            limit={pagination.limit}
-            onLimitChange={handleLimitChange}
-            totalItems={pagination.totalNews}
-          />
-        </div>
-      )}
+      <div className="flex items-center justify-between">
+        <Pagination
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
+          limit={pagination.limit}
+          onLimitChange={handleLimitChange}
+          totalItems={pagination.totalNews}
+        />
+      </div>
 
       {/* Filter Sheet */}
       <NewsFilterSheet
@@ -524,4 +502,3 @@ function News() {
 }
 
 export default News
-

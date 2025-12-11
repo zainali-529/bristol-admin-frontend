@@ -84,7 +84,7 @@ const energyPricesSlice = createSlice({
       currentPage: 1,
       totalPages: 1,
       totalPrices: 0,
-      limit: 10,
+      limit: 5,
     },
     filters: {
       isActive: '',

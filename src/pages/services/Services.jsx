@@ -373,11 +373,6 @@ function Services() {
           variant="outline"
           onClick={() => setFilterSheetOpen(true)}
           className="shrink-0"
-          style={{ 
-            borderColor: 'var(--border)',
-            color: 'var(--text-primary)',
-            backgroundColor: 'transparent'
-          }}
         >
           <Filter className="mr-2 size-4" />
           Filter

@@ -134,7 +134,7 @@ const documentsSlice = createSlice({
       totalPages: 1,
       totalDocuments: 0,
       totalItems: 0,
-      limit: 10,
+      limit: 5,
     },
     filters: {
       status: '',

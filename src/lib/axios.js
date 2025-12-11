@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { store } from '@/store/store'
+import { logout } from '@/store/authSlice'
 
 // Create axios instance with default config
 const axiosInstance = axios.create({
@@ -13,7 +15,8 @@ const axiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken') || localStorage.getItem('token')
+    const state = store.getState()
+    const token = state?.auth?.token || localStorage.getItem('authToken') || localStorage.getItem('token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -34,8 +37,15 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       const { status, data } = error.response
       if (status === 401) {
-        localStorage.removeItem('authToken')
-        localStorage.removeItem('token')
+        try {
+          localStorage.removeItem('authToken')
+          localStorage.removeItem('token')
+          store.dispatch(logout())
+        } finally {
+          if (window.location.pathname !== '/login') {
+            window.location.href = '/login'
+          }
+        }
       }
       return Promise.reject({
         status,

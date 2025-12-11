@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { Mail, Lock, Eye, EyeOff, Loader2, Moon, Sun } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/card'
 import { useDarkMode } from '@/hooks/useDarkMode'
 import apiService from '@/services/api'
+import { toast } from 'sonner'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { setLoading, setError, loginSuccess, clearError } from '@/store/authSlice'
 
@@ -164,8 +165,24 @@ function Login() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>Bristol Utilities Admin Portal</p>
+          <div className="mt-4 flex items-center justify-between text-xs">
+            <div className="text-muted-foreground">Bristol Utilities Admin Portal</div>
+            <button
+              type="button"
+              className="text-primary hover:underline"
+              onClick={async () => {
+                try {
+                  if (!email) return toast.error('Enter your admin email above');
+                  await apiService.forgotPassword(email)
+                  toast.success('Password reset email sent')
+                } catch (err) {
+                  const msg = err.response?.data?.message || err.message || 'Failed to send reset email'
+                  toast.error(msg)
+                }
+              }}
+            >
+              Forgot password?
+            </button>
           </div>
         </CardContent>
       </Card>

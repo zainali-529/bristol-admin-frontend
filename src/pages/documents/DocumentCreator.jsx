@@ -300,9 +300,9 @@ function DocumentCreator() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="space-y-6">
         {/* Left Sidebar - Document Info */}
-        <div className="lg:col-span-1 space-y-6">
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Document Information</CardTitle>
@@ -425,7 +425,7 @@ function DocumentCreator() {
         </div>
 
         {/* Right Side - Spreadsheet Editor */}
-        <div className="lg:col-span-2 space-y-4">
+        <div className="space-y-4">
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">

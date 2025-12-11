@@ -84,7 +84,7 @@ const initialState = {
     totalContacts: 0,
     hasNextPage: false,
     hasPrevPage: false,
-    limit: 10,
+    limit: 5,
   },
   filters: {
     status: '',
@@ -218,4 +218,3 @@ const contactsSlice = createSlice({
 
 export const { setFilters, setPaginationLimit, clearSelectedContact, clearError } = contactsSlice.actions
 export default contactsSlice.reducer
-

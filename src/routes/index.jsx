@@ -18,15 +18,23 @@ import HowWeWorkPage from '@/pages/customization/HowWeWork'
 import HeroCustomizationPage from '@/pages/customization/HeroCustomization'
 import SettingsPage from '@/pages/settings/Settings'
 import LoginPage from '@/pages/auth/Login'
+import ResetPasswordPage from '@/pages/auth/ResetPassword'
 import ContactsPage from '@/pages/contacts/Contacts'
 import QuotesPage from '@/pages/quotes/Quotes'
 import IndustriesPage from '@/pages/industries/Industries'
 import TestimonialsPage from '@/pages/testimonials/Testimonials'
+import SupportPage from '@/pages/support/Support'
+import TicketsPage from '@/pages/tickets/Tickets'
+import TicketDetailPage from '@/pages/tickets/TicketDetail'
 
 export const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPasswordPage />,
   },
   {
     path: '/',
@@ -73,6 +81,14 @@ export const router = createBrowserRouter([
           element: <TeamMembersPage />,
         },
         {
+          path: 'tickets',
+          element: <TicketsPage />,
+        },
+        {
+          path: 'tickets/:id',
+          element: <TicketDetailPage />,
+        },
+        {
           path: 'documents',
           element: <DocumentsPage />,
         },
@@ -91,6 +107,10 @@ export const router = createBrowserRouter([
       {
         path: 'quotes',
         element: <QuotesPage />,
+      },
+      {
+        path: 'support',
+        element: <SupportPage />,
       },
       {
         path: 'customization/theme',

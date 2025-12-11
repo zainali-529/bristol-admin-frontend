@@ -107,7 +107,7 @@ const testimonialsSlice = createSlice({
       currentPage: 1,
       totalPages: 1,
       totalTestimonials: 0,
-      limit: 10,
+      limit: 5,
     },
     filters: {
       status: '', // 'active' or 'inactive'

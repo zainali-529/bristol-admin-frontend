@@ -84,7 +84,7 @@ const initialState = {
     totalQuotes: 0,
     hasNextPage: false,
     hasPrevPage: false,
-    limit: 10,
+    limit: 5,
   },
   filters: {
     status: '',

@@ -1,28 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const storedToken = localStorage.getItem('authToken') || localStorage.getItem('token') || null
+
 const initialState = {
   user: null,
-  token: null,
-  isAuthenticated: false,
+  token: storedToken,
+  isAuthenticated: !!storedToken,
   loading: false,
   error: null,
 }
 
-// Load initial state from localStorage
-const savedToken = localStorage.getItem('authToken') || localStorage.getItem('token')
-const savedUser = localStorage.getItem('user')
-
-if (savedToken) {
-  initialState.token = savedToken
-  initialState.isAuthenticated = true
-  if (savedUser) {
-    try {
-      initialState.user = JSON.parse(savedUser)
-    } catch (e) {
-      console.error('Error parsing saved user data:', e)
-    }
-  }
-}
+// No persistence; start fresh every load
 
 const authSlice = createSlice({
   name: 'auth',
@@ -42,12 +30,8 @@ const authSlice = createSlice({
       state.isAuthenticated = true
       state.loading = false
       state.error = null
-      
-      // Save to localStorage
-      localStorage.setItem('authToken', token)
-      localStorage.setItem('token', token)
-      if (user) {
-        localStorage.setItem('user', JSON.stringify(user))
+      if (token) {
+        localStorage.setItem('authToken', token)
       }
     },
     logout: (state) => {
@@ -55,11 +39,8 @@ const authSlice = createSlice({
       state.token = null
       state.isAuthenticated = false
       state.error = null
-      
-      // Clear localStorage
       localStorage.removeItem('authToken')
       localStorage.removeItem('token')
-      localStorage.removeItem('user')
     },
     clearError: (state) => {
       state.error = null

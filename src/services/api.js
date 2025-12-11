@@ -8,6 +8,10 @@ export const apiService = {
   login: (credentials) => axiosInstance.post('/admin/auth/login', credentials),
   logout: () => axiosInstance.post('/admin/auth/logout'),
   refreshToken: () => axiosInstance.post('/admin/auth/refresh'),
+  forgotPassword: (email) => axiosInstance.post('/admin/auth/forgot-password', { email }),
+  resetPassword: (payload) => axiosInstance.post('/admin/auth/reset-password', payload),
+  getAdminProfile: () => axiosInstance.get('/admin/auth/profile'),
+  updateAdminProfile: (data) => axiosInstance.patch('/admin/auth/profile', data),
   
   // Contact Routes - Admin
   getContacts: (params) => axiosInstance.get('/contacts/admin', { params }),
@@ -154,6 +158,13 @@ export const apiService = {
   updateTeamMemberOrder: (id, displayOrder) => axiosInstance.patch(`/team-members/admin/${id}/order`, { displayOrder }),
   getTeamMemberStats: () => axiosInstance.get('/team-members/admin/stats'),
 
+  // Tickets - Admin Routes
+  getTickets: (params) => axiosInstance.get('/tickets', { params }),
+  getTicketById: (id) => axiosInstance.get(`/tickets/${id}`),
+  createTicket: (data) => axiosInstance.post('/tickets', data),
+  updateTicket: (id, data) => axiosInstance.patch(`/tickets/${id}`, data),
+  addTicketComment: (id, data) => axiosInstance.post(`/tickets/${id}/comments`, data),
+
   // Documents - Admin Routes
   getDocuments: (params) => axiosInstance.get('/documents/admin', { params }),
   getDocumentById: (id) => axiosInstance.get(`/documents/admin/${id}`),
@@ -192,6 +203,15 @@ export const apiService = {
   }),
   deleteHeroMedia: (id, type) => axiosInstance.delete(`/hero/admin/${id}/media/${type}`),
   setActiveHero: (id) => axiosInstance.patch(`/hero/admin/${id}/activate`),
+
+  // Payments & Feature Access
+  createPaymentRequest: (formData) => axiosInstance.post('/payments/admin', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  getAdminPaymentStatus: (featureKey) => axiosInstance.get(`/payments/admin/${featureKey}`),
+  getFeatureAccessStatus: (featureKey) => axiosInstance.get(`/feature-access/${featureKey}`),
+  startFeatureDemo: (featureKey, durationMinutes = 5) => axiosInstance.post(`/feature-access/${featureKey}/demo/start`, { durationMinutes }),
+  getFeatureDemoStatus: (featureKey) => axiosInstance.get(`/feature-access/${featureKey}/demo/status`),
 }
 
 export default apiService

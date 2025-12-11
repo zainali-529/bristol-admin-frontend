@@ -38,9 +38,15 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
 import { useNavigate } from 'react-router-dom'
-import { Search, Filter, Plus, MoreHorizontal, Edit, Trash2, Download, FileText, File, X, HardDrive, FileSpreadsheet, Upload, ChevronDown } from 'lucide-react'
+import { Search, Filter, Plus, MoreHorizontal, Edit, Trash2, Download, FileText, File, X, HardDrive, FileSpreadsheet, Upload, ChevronDown, Loader2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { toast } from 'sonner'
+import DocsAccessModal from '@/components/customization/DocsAccessModal'
+import DocsAccessSheet from '@/components/customization/DocsAccessSheet'
+import apiService from '@/services/api'
+
+const docsProDefault = false
+const DEMO_FEATURE_KEY = 'documents'
 
 function Documents() {
   const navigate = useNavigate()
@@ -62,6 +68,77 @@ function Documents() {
     dispatch(fetchDocumentCategories())
     dispatch(fetchDocumentFileTypes())
   }, [dispatch])
+
+  useEffect(() => {
+    let mounted = true
+    apiService.getFeatureAccessStatus('documents')
+      .then((res) => {
+        if (!mounted) return
+        setIsUnlocked(!!res.data?.data?.isUnlocked)
+      })
+      .catch(() => setIsUnlocked(false))
+    apiService.getAdminPaymentStatus('documents')
+      .then((res) => {
+        if (!mounted) return
+        setPaymentStatus(res.data?.data?.status || '')
+      })
+      .catch(() => setPaymentStatus(''))
+    return () => { mounted = false }
+  }, [])
+
+  const [canDemo, setCanDemo] = useState(true)
+  useEffect(() => {
+    let mounted = true
+    apiService.getFeatureDemoStatus(DEMO_FEATURE_KEY)
+      .then((res) => {
+        if (!mounted) return
+        setCanDemo(!!res.data?.data?.canDemo)
+      })
+      .catch(() => {
+        if (!mounted) return
+        setCanDemo(true)
+      })
+    return () => { mounted = false }
+  }, [])
+
+  useEffect(() => {
+    let mounted = true
+    Promise.all([
+      apiService.getFeatureAccessStatus('documents'),
+      apiService.getAdminPaymentStatus('documents'),
+    ])
+      .then(([accessRes, statusRes]) => {
+        if (!mounted) return
+        setIsUnlocked(!!accessRes.data?.data?.isUnlocked)
+        setPaymentStatus(statusRes.data?.data?.status || '')
+      })
+      .catch(() => {
+        if (!mounted) return
+        setIsUnlocked(false)
+        setPaymentStatus('')
+      })
+      .finally(() => {
+        if (!mounted) return
+        setAccessLoading(false)
+      })
+    return () => { mounted = false }
+  }, [])
+
+  useEffect(() => {
+    const tick = () => {
+      const endRaw = localStorage.getItem(`demo:${DEMO_FEATURE_KEY}:endAt`)
+      const endAt = endRaw ? Number(endRaw) : 0
+      setDemoEndAt(endAt)
+      setDemoActive(!!(endAt && Date.now() < endAt))
+      setNowTs(Date.now())
+      if (endAt && Date.now() >= endAt) {
+        localStorage.removeItem(`demo:${DEMO_FEATURE_KEY}:endAt`)
+      }
+    }
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [])
 
   useEffect(() => {
     const params = {
@@ -161,6 +238,15 @@ function Documents() {
         toast.error(error || 'Failed to delete document')
       }
     }
+  }
+
+  const handlePageChange = (page) => {
+    dispatch(fetchDocuments({ ...filters, page, limit: pagination.limit }))
+  }
+
+  const handleLimitChange = (limit) => {
+    dispatch(setPaginationLimit(limit))
+    dispatch(fetchDocuments({ page: 1, limit, ...filters }))
   }
 
   const handleDownload = async (document) => {
@@ -292,8 +378,35 @@ function Documents() {
     },
   ]
 
+  const [isUnlocked, setIsUnlocked] = useState(docsProDefault)
+  const [demoEndAt, setDemoEndAt] = useState(Number(localStorage.getItem(`demo:${DEMO_FEATURE_KEY}:endAt`)) || 0)
+  const [demoActive, setDemoActive] = useState(!!(demoEndAt && Date.now() < demoEndAt))
+  const [nowTs, setNowTs] = useState(Date.now())
+  const isGateOpen = !(isUnlocked || demoActive)
+  const [accessOpen, setAccessOpen] = useState(false)
+  const [paymentStatus, setPaymentStatus] = useState('')
+  const [accessLoading, setAccessLoading] = useState(true)
+  if (accessLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6 p-6">
+      {demoActive && (
+        <div className="rounded-lg border p-3 flex items-center justify-between" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary">Demo Active</Badge>
+            <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              Ends in {Math.max(0, Math.floor((demoEndAt - nowTs) / 60000))}m {Math.max(0, Math.floor(((demoEndAt - nowTs) % 60000) / 1000))}s
+            </span>
+          </div>
+          <Button onClick={() => setAccessOpen(true)} style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>Get access</Button>
+        </div>
+      )}
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -377,27 +490,27 @@ function Documents() {
       {/* Filters and Search */}
       <div className="flex items-center gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <Input
             placeholder="Search documents..."
             value={searchValue}
             onChange={(e) => handleSearch(e.target.value)}
-            className="pl-10"
+            className="pl-9"
           />
           {searchValue && (
             <Button
               variant="ghost"
               size="icon"
-              className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
               onClick={() => handleSearch('')}
             >
-              <X className="h-4 w-4" />
+              <X className="size-4" />
             </Button>
           )}
         </div>
         <Button variant="outline" onClick={() => setFilterSheetOpen(true)}>
-          <Filter className="mr-2 h-4 w-4" />
-          Filters
+          <Filter className="mr-2 size-4" />
+          Filter
         </Button>
       </div>
 
@@ -417,13 +530,13 @@ function Documents() {
       </Card>
 
       {/* Pagination */}
-      {pagination.totalPages > 1 && (
-        <Pagination
-          currentPage={pagination.currentPage}
-          totalPages={pagination.totalPages}
-          onPageChange={(page) => dispatch(fetchDocuments({ ...filters, page, limit: pagination.limit }))}
-        />
-      )}
+      <Pagination
+        currentPage={pagination.currentPage}
+        totalPages={pagination.totalPages}
+        limit={pagination.limit}
+        onPageChange={handlePageChange}
+        onLimitChange={handleLimitChange}
+      />
 
       {/* Form Sheet */}
       <DocumentFormSheet
@@ -475,9 +588,27 @@ function Documents() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      {isGateOpen && (
+        <DocsAccessModal
+          open={isGateOpen}
+          status={paymentStatus}
+          canDemo={canDemo}
+          onRequestDemo={async () => {
+            try { await apiService.startFeatureDemo(DEMO_FEATURE_KEY, 5); setCanDemo(false) } catch {}
+            const endAt = Date.now() + 5 * 60 * 1000
+            localStorage.setItem(`demo:${DEMO_FEATURE_KEY}:endAt`, String(endAt))
+            setDemoEndAt(endAt)
+            setDemoActive(true)
+          }}
+          onGetAccess={() => { if (!paymentStatus) setAccessOpen(true) }}
+        />
+      )}
+      <DocsAccessSheet
+        open={accessOpen}
+        onOpenChange={setAccessOpen}
+      />
     </div>
   )
 }
 
 export default Documents
-

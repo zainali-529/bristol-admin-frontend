@@ -16,7 +16,6 @@ import Pagination from '@/components/shared/Pagination'
 import StatusBadge from '@/components/shared/StatusBadge'
 import EnergyPriceFormSheet from '@/components/energyPrices/EnergyPriceFormSheet'
 import LivePriceCardPreview from '@/components/energyPrices/LivePriceCardPreview'
-import PriceHistoryChart from '@/components/energyPrices/PriceHistoryChart'
 import PriceComparisonChart from '@/components/energyPrices/PriceComparisonChart'
 import PriceHistoryDetailSheet from '@/components/energyPrices/PriceHistoryDetailSheet'
 import {
@@ -49,8 +48,7 @@ import {
   Flame,
   RefreshCw,
   Eye,
-  BarChart3,
-  LineChart
+  BarChart3
 } from 'lucide-react'
 import { format } from 'date-fns'
 import { toast } from 'sonner'
@@ -321,9 +319,8 @@ function EnergyPriceTracker() {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="preview" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 mb-6">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
                 <TabsTrigger value="preview">Preview</TabsTrigger>
-                <TabsTrigger value="trends">Trends</TabsTrigger>
                 <TabsTrigger value="comparison">Comparison</TabsTrigger>
               </TabsList>
 
@@ -394,70 +391,6 @@ function EnergyPriceTracker() {
                 )}
               </TabsContent>
 
-              {/* Trends Tab */}
-              <TabsContent value="trends" className="space-y-4">
-                <div 
-                  className="p-6 rounded-xl"
-                  style={{ backgroundColor: 'var(--card)', border: '1px solid var(--primary-10)' }}
-                >
-                  <div className="flex items-center gap-2 mb-6">
-                    <LineChart size={20} style={{ color: 'var(--primary)' }} />
-                    <h4 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
-                      Price Trends Over Time
-                    </h4>
-                  </div>
-                  {currentPrice.electricity?.history && currentPrice.gas?.history ? (
-                    <PriceHistoryChart
-                      electricityHistory={currentPrice.electricity.history}
-                      gasHistory={currentPrice.gas.history}
-                      showElectricity={true}
-                      showGas={true}
-                    />
-                  ) : (
-                    <p style={{ color: 'var(--text-secondary)' }}>No historical data available</p>
-                  )}
-                </div>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div 
-                    className="p-4 rounded-lg"
-                    style={{ backgroundColor: 'var(--primary-5)', border: '1px solid var(--primary-10)' }}
-                  >
-                    <p className="text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Elec. Avg</p>
-                    <p className="text-2xl font-bold" style={{ color: '#3b82f6' }}>
-                      £{currentPrice.electricity?.average?.toFixed(4) || 'N/A'}
-                    </p>
-                  </div>
-                  <div 
-                    className="p-4 rounded-lg"
-                    style={{ backgroundColor: 'var(--primary-5)', border: '1px solid var(--primary-10)' }}
-                  >
-                    <p className="text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Elec. Range</p>
-                    <p className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
-                      £{currentPrice.electricity?.low?.toFixed(4) || 'N/A'} - £{currentPrice.electricity?.high?.toFixed(4) || 'N/A'}
-                    </p>
-                  </div>
-                  <div 
-                    className="p-4 rounded-lg"
-                    style={{ backgroundColor: 'var(--primary-5)', border: '1px solid var(--primary-10)' }}
-                  >
-                    <p className="text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Gas Avg</p>
-                    <p className="text-2xl font-bold" style={{ color: '#f97316' }}>
-                      £{currentPrice.gas?.average?.toFixed(4) || 'N/A'}
-                    </p>
-                  </div>
-                  <div 
-                    className="p-4 rounded-lg"
-                    style={{ backgroundColor: 'var(--primary-5)', border: '1px solid var(--primary-10)' }}
-                  >
-                    <p className="text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Gas Range</p>
-                    <p className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
-                      £{currentPrice.gas?.low?.toFixed(4) || 'N/A'} - £{currentPrice.gas?.high?.toFixed(4) || 'N/A'}
-                    </p>
-                  </div>
-                </div>
-              </TabsContent>
 
               {/* Comparison Tab */}
               <TabsContent value="comparison" className="space-y-4">

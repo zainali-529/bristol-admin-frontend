@@ -133,7 +133,7 @@ const newsSlice = createSlice({
       totalPages: 1,
       totalNews: 0,
       totalItems: 0,
-      limit: 10,
+      limit: 5,
     },
     filters: {
       status: '',
