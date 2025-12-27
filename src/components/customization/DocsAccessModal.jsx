@@ -71,8 +71,8 @@ function DocsAccessModal({ open, status, canDemo = true, onRequestDemo, onGetAcc
               <div className="rounded-lg border p-4" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}>
                 <div className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>One-time payment • Lifetime access</div>
                 <div className="flex items-center gap-3">
-                  <Badge variant="secondary">PKR 100,000</Badge>
-                  <Badge variant="secondary">£250</Badge>
+                  <Badge variant="secondary">PKR 49,140</Badge>
+                  <Badge variant="secondary">£130</Badge>
                 </div>
               </div>
             </div>

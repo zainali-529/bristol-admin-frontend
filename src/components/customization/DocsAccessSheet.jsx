@@ -6,8 +6,8 @@ function DocsAccessSheet({ open, onOpenChange }) {
       open={open}
       onOpenChange={onOpenChange}
       product={"Documents"}
-      pricePKR={100000}
-      priceGBP={250}
+      pricePKR={49140}
+      priceGBP={130}
       featureKey="documents"
     />
   )

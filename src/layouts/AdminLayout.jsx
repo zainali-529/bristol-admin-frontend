@@ -35,7 +35,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import {
-  Bell,
   LineChart,
   Palette,
   Settings,
@@ -62,8 +61,6 @@ import {
   Ticket,
 } from 'lucide-react'
 import { useDarkMode } from '@/hooks/useDarkMode'
-import { useUnreadTickets } from '@/hooks/useUnreadTickets'
-import NotificationDropdown from '@/components/notifications/NotificationDropdown'
 import apiService from '@/services/api'
 
 const mainNavigation = [
@@ -319,7 +316,6 @@ function AdminLayout() {
               />
               <span className="sr-only">Toggle dark mode</span>
             </Button>
-            <NotificationDropdown userRole="admin" />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="gap-2 px-2">

@@ -171,11 +171,8 @@ function News() {
   }
 
   const handleFormSaveSuccess = () => {
-    dispatch(fetchNews({
-      page: pagination.currentPage,
-      limit: pagination.limit,
-      ...filters
-    }))
+    // Refresh stats but don't refetch news list to avoid overwriting optimistically updated state
+    // and potential race conditions with database eventual consistency
     dispatch(fetchNewsStats())
   }
 
@@ -193,10 +190,18 @@ function News() {
             />
           )}
           <div className="flex-1 min-w-0">
-            <p className="font-medium truncate" style={{ color: 'var(--text-primary)' }}>
+            <p 
+              className="font-medium truncate" 
+              style={{ color: 'var(--text-primary)', maxWidth: '200px' }}
+              title={row.title}
+            >
               {row.title}
             </p>
-            <p className="text-sm truncate" style={{ color: 'var(--text-secondary)' }}>
+            <p 
+              className="text-sm truncate" 
+              style={{ color: 'var(--text-secondary)', maxWidth: '200px' }}
+              title={row.cardDescription}
+            >
               {row.cardDescription}
             </p>
           </div>

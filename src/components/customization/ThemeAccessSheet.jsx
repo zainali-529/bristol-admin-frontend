@@ -6,8 +6,8 @@ function ThemeAccessSheet({ open, onOpenChange }) {
       open={open}
       onOpenChange={onOpenChange}
       product={"Theme Customization"}
-      pricePKR={200000}
-      priceGBP={500}
+      pricePKR={37800}
+      priceGBP={100}
       featureKey="theme"
     />
   )

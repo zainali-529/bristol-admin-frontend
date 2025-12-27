@@ -163,7 +163,7 @@ function Suppliers() {
           <img
             src={supplier.image?.url}
             alt={supplier.image?.alt || supplier.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain p-1"
             onError={(e) => {
               e.target.style.display = 'none'
             }}

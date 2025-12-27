@@ -210,7 +210,7 @@ export const apiService = {
   }),
   getAdminPaymentStatus: (featureKey) => axiosInstance.get(`/payments/admin/${featureKey}`),
   getFeatureAccessStatus: (featureKey) => axiosInstance.get(`/feature-access/${featureKey}`),
-  startFeatureDemo: (featureKey, durationMinutes = 5) => axiosInstance.post(`/feature-access/${featureKey}/demo/start`, { durationMinutes }),
+  startFeatureDemo: (featureKey, durationMinutes = 1440) => axiosInstance.post(`/feature-access/${featureKey}/demo/start`, { durationMinutes }),
   getFeatureDemoStatus: (featureKey) => axiosInstance.get(`/feature-access/${featureKey}/demo/status`),
 }
 

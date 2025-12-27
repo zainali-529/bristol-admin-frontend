@@ -382,3 +382,9 @@ a {
 [data-sidebar="content"]::-webkit-scrollbar-thumb:hover {
   background-color: var(--primary-20);
 }
+
+@media (max-width: 1400px) {
+  html {
+    zoom: 0.9;
+  }
+}

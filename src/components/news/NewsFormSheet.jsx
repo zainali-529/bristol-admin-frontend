@@ -52,7 +52,6 @@ const formSchema = z.object({
   additionalImages: z.any().optional(),
   authorName: z.string().max(100, 'Author name cannot exceed 100 characters').optional().nullable(),
   authorEmail: z.string().email('Invalid email address').optional().nullable(),
-  publishDate: z.string().optional().nullable(),
   status: z.enum(['draft', 'published', 'archived']).default('draft'),
   isActive: z.boolean().default(true),
   isFeatured: z.boolean().default(false),
@@ -253,7 +252,6 @@ function NewsFormSheet({ open, onOpenChange, newsId, onSaveSuccess }) {
     
     if (data.authorName) formData.append('author[name]', data.authorName)
     if (data.authorEmail) formData.append('author[email]', data.authorEmail)
-    if (data.publishDate) formData.append('publishDate', new Date(data.publishDate).toISOString())
     if (data.metaTitle) formData.append('metaTitle', data.metaTitle)
     if (data.metaDescription) formData.append('metaDescription', data.metaDescription)
     if (data.metaKeywords) formData.append('metaKeywords', data.metaKeywords)
@@ -540,20 +538,6 @@ function NewsFormSheet({ open, onOpenChange, newsId, onSaveSuccess }) {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="publishDate" style={{ color: 'var(--text-primary)' }}>Publish Date</Label>
-                  <Input
-                    id="publishDate"
-                    type="datetime-local"
-                    {...register('publishDate')}
-                    style={{
-                      backgroundColor: 'var(--background)',
-                      borderColor: 'var(--border)',
-                      color: 'var(--text-primary)'
-                    }}
-                  />
-                </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="status" style={{ color: 'var(--text-primary)' }}>Status *</Label>
                   <Select

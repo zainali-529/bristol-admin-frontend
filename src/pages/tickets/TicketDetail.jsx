@@ -3,12 +3,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from '@/lib/axios';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Edit, Loader2 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { ArrowLeft, Edit, Loader2, Bell } from 'lucide-react';
 import StatusBadge from '@/components/tickets/StatusBadge';
 import MessageBubble from '@/components/tickets/MessageBubble';
 import ReplyInput from '@/components/tickets/ReplyInput';
 import EditTicketDialog from '@/components/tickets/EditTicketDialog';
 import { Badge } from '@/components/ui/badge';
+import { toast } from 'sonner';
 
 function TicketDetail() {
   const { id } = useParams();
@@ -30,8 +33,25 @@ function TicketDetail() {
       await axios.patch(`/tickets/${id}/read`);
     } catch (err) {
       console.error('Failed to load ticket:', err);
+      toast.error('Failed to load ticket details');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleToggleNotification = async (checked) => {
+    try {
+      const res = await axios.put(`/tickets/${id}/toggle-notification`);
+      if (res.data.success) {
+        setTicket(prev => ({
+          ...prev,
+          notificationPreferences: res.data.data
+        }));
+        toast.success(`Email notifications ${checked ? 'enabled' : 'disabled'}`);
+      }
+    } catch (err) {
+      console.error('Failed to toggle notification:', err);
+      toast.error('Failed to update notification preferences');
     }
   };
 
@@ -107,10 +127,23 @@ function TicketDetail() {
               </Badge>
               <Badge variant="outline">{ticket.category}</Badge>
             </div>
-            <Button variant="outline" size="sm" onClick={() => setEditDialogOpen(true)}>
-              <Edit className="size-3 mr-1" />
-              Edit
-            </Button>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 border-r pr-4 mr-2" style={{ borderColor: 'var(--border)' }}>
+                <Switch 
+                  id="email-notifications" 
+                  checked={ticket.notificationPreferences?.admin ?? true} 
+                  onCheckedChange={handleToggleNotification} 
+                />
+                <Label htmlFor="email-notifications" className="text-sm font-medium cursor-pointer flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+                  <Bell size={14} />
+                  Email Notifications
+                </Label>
+              </div>
+              <Button variant="outline" size="sm" onClick={() => setEditDialogOpen(true)}>
+                <Edit className="size-3 mr-1" />
+                Edit
+              </Button>
+            </div>
           </CardTitle>
         </CardHeader>
 

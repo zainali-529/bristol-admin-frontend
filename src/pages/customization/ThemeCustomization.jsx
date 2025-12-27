@@ -307,7 +307,7 @@ function ThemeCustomizationPage() {
           <div className="flex items-center gap-2">
             <Badge variant="secondary">Demo Active</Badge>
             <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              Ends in {Math.max(0, Math.floor((demoEndAt - nowTs) / 60000))}m {Math.max(0, Math.floor(((demoEndAt - nowTs) % 60000) / 1000))}s
+              Ends in {Math.floor(Math.max(0, demoEndAt - nowTs) / 3600000)}h {Math.floor((Math.max(0, demoEndAt - nowTs) % 3600000) / 60000)}m {Math.floor((Math.max(0, demoEndAt - nowTs) % 60000) / 1000)}s
             </span>
           </div>
           <Button onClick={() => setAccessOpen(true)} style={{ backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}>Get access</Button>
@@ -966,8 +966,8 @@ function ThemeCustomizationPage() {
           status={paymentStatus}
           canDemo={canDemo}
           onRequestDemo={async () => {
-            try { await apiService.startFeatureDemo(DEMO_FEATURE_KEY, 5); setCanDemo(false) } catch {}
-            const endAt = Date.now() + 5 * 60 * 1000
+            try { await apiService.startFeatureDemo(DEMO_FEATURE_KEY, 1440); setCanDemo(false) } catch {}
+            const endAt = Date.now() + 1440 * 60 * 1000
             localStorage.setItem(`demo:${DEMO_FEATURE_KEY}:endAt`, String(endAt))
             setDemoEndAt(endAt)
             setDemoActive(true)

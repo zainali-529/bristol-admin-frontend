@@ -1,26 +1,12 @@
-import { useEffect } from 'react'
-import { useTheme } from '@/hooks/useTheme'
+import { Fragment } from 'react'
 
 /**
  * Theme Provider Component
- * Fetches theme from API and applies it to the application
- * Should be placed at the root of your app
+ * Pass-through provider for static theme.
+ * Uses CSS variables from index.css; no dynamic API theming.
  */
 function ThemeProvider({ children }) {
-  const { loading, error } = useTheme()
-
-  useEffect(() => {
-    if (error) {
-      console.warn('Theme loading error, using default theme:', error)
-    }
-  }, [error])
-
-  // Show loading state if needed (optional)
-  if (loading) {
-    return children // Or return a loading spinner
-  }
-
-  return <>{children}</>
+  return <Fragment>{children}</Fragment>
 }
 
 export default ThemeProvider

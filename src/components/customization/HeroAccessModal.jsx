@@ -72,8 +72,8 @@ function HeroAccessModal({ open, status, canDemo = true, onRequestDemo, onGetAcc
               <div className="rounded-lg border p-4" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}>
                 <div className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>One-time payment • Lifetime access</div>
                 <div className="flex items-center gap-3">
-                  <Badge variant="secondary">PKR 150,000</Badge>
-                  <Badge variant="secondary">£375</Badge>
+                  <Badge variant="secondary">PKR 30,240</Badge>
+                  <Badge variant="secondary">£80</Badge>
                 </div>
               </div>
             </div>

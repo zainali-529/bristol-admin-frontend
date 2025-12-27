@@ -72,8 +72,8 @@ function ThemeAccessModal({ open, status, canDemo = true, onRequestDemo, onGetAc
               <div className="rounded-lg border p-4" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}>
                 <div className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>One-time payment • Lifetime access</div>
                 <div className="flex items-center gap-3">
-                  <Badge variant="secondary">PKR 200,000</Badge>
-                  <Badge variant="secondary">£500</Badge>
+                  <Badge variant="secondary">PKR 37,800</Badge>
+                  <Badge variant="secondary">£100</Badge>
                 </div>
               </div>
             </div>

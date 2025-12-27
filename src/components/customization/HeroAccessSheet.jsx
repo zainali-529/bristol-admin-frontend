@@ -6,8 +6,8 @@ function HeroAccessSheet({ open, onOpenChange }) {
       open={open}
       onOpenChange={onOpenChange}
       product={"Hero Section Templates"}
-      pricePKR={150000}
-      priceGBP={375}
+      pricePKR={30240}
+      priceGBP={80}
       featureKey="hero"
     />
   )

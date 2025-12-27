@@ -250,7 +250,7 @@ function SupplierFormSheet({ open, onOpenChange, supplier = null, onSuccess }) {
                     <img
                       src={imagePreview}
                       alt="Preview"
-                      className="w-24 h-18 object-cover rounded-md border"
+                      className="w-24 h-18 object-contain rounded-md border bg-muted/50"
                     />
                     <Button
                       type="button"
